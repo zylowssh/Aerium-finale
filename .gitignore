@@ -1,0 +1,15 @@
+node_modules
+venv
+__pycache__/
+*.log
+.DS_Store
+.env
+.idea/
+.vscode/
+dist/
+build/
+*.pyc
+*.pyo
+*.egg-info/
+coverage/
+htmlcov/
