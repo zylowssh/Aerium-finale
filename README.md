@@ -1,15 +1,18 @@
-# Aerium - Système de Surveillance de la Qualité de l'Air CO₂
+# 🌍 Aerium - Tableau de Bord Qualité de l'Air
 
 <div align="center">
 
-![Python Version](https://img.shields.io/badge/python-3.8%2B-blue)
+![React](https://img.shields.io/badge/react-19.x-blue)
+![TypeScript](https://img.shields.io/badge/typescript-5.x-blue)
+![Vite](https://img.shields.io/badge/vite-latest-purple)
+![Python](https://img.shields.io/badge/python-3.8%2B-blue)
 ![Flask](https://img.shields.io/badge/flask-3.0%2B-green)
 ![Licence](https://img.shields.io/badge/licence-MIT-orange)
 ![Statut](https://img.shields.io/badge/statut-production-brightgreen)
 
-**Une application web de surveillance de la qualité de l'air en temps réel pour suivre et analyser les niveaux de CO₂**
+**Système complet de surveillance de la qualité de l'air en temps réel avec interface React moderne et backend Flask robuste**
 
-[Démarrage Rapide](#-démarrage-rapide) • [Documentation](docs/INDEX.md) • [Démo](#-captures-décran) • [Contribuer](#-contribuer)
+[Démarrage Rapide](#-quick-start--démarrage-rapide) • [Documentation](docs/INDEX.md) • [Fonctionnalités](#-fonctionnalités) • [Contribuer](#-contribuer)
 
 </div>
 
@@ -17,255 +20,290 @@
 
 ## 📖 À Propos
 
-Aerium est une application web complète de surveillance de la qualité de l'air construite avec Flask et SocketIO. Elle permet de suivre en temps réel les niveaux de CO₂ dans vos espaces de travail, bureaux, écoles ou maisons, avec des analyses avancées et des alertes intelligentes.
+Aerium est une plateforme web complète de surveillance de la qualité de l'air construite avec une architecture moderne:
+- **Frontend** : React 19 + TypeScript + Vite + Tailwind CSS + shadcn/ui
+- **Backend** : Flask + SQLite + JWT + WebSocket (Socket.IO)
+- **Temps réel** : Mises à jour en direct via WebSocket
+- **Sécurité** : Authentification JWT, RBAC, rate limiting
 
-### 🎯 Pourquoi Aerium ?
-
-- **🏢 Espaces de Travail** : Surveillez la qualité de l'air dans vos bureaux pour améliorer la productivité
-- **🏫 Établissements Scolaires** : Assurez un environnement d'apprentissage optimal
-- **🏠 Usage Domestique** : Surveillez la ventilation et la qualité de l'air intérieur
-- **🔬 Recherche** : Collectez et analysez des données environnementales
-- **🏭 Industrie** : Conformité aux normes de qualité de l'air
+Elle permet de suivre en temps réel les niveaux de CO₂, température et humidité avec des analyses avancées et des alertes intelligentes.
 
 ## ✨ Fonctionnalités
 
-- **Surveillance en Temps Réel**: Mises à jour des données CO₂ en direct via WebSocket
-- **Système Multi-utilisateurs**: Authentification sécurisée avec contrôle d'accès basé sur les rôles (utilisateur/admin)
-- **Gestion des Capteurs**: Support de plusieurs capteurs avec seuils individuels
-- **Analyses de Données**: Analyse des données historiques, tendances et recommandations basées sur le ML
-- **Export & Planification**: Export des données vers CSV/Excel avec exports automatisés programmés
-- **Tableau de Bord Admin**: Surveillance de la santé du système, gestion des utilisateurs et journaux d'audit
-- **Optimisation des Performances**: Mise en cache, pagination et limitation de débit pour la scalabilité
+**Surveillance en Temps Réel**
+- 📊 Suivi des niveaux de CO₂, température et humidité
+- 🔄 Mises à jour en direct via WebSocket
+- 📈 Graphiques et analytics détaillés avec recharts
+- 🎨 Dashboard intuitif et fully responsive
 
-## 🚀 Quick Start (Démarrage rapide)
+**Alertes Intelligentes**
+- 📧 Notifications par email automatiques
+- 🚨 Seuils d'alerte configurables par capteur
+- 📝 Historique complet des alertes
+- 🔔 Reconnaissance et résolution d'alertes en temps réel
+
+**Gestion des Capteurs**
+- ➕ Ajouter et gérer plusieurs capteurs
+- 🔍 Recherche et filtrage avancés
+- 📍 Localisation et cartographie des capteurs
+- 🔄 Support des capteurs physiques et simulés
+
+**Analyse et Rapports**
+- 📊 Comparaison multi-capteurs
+- 📥 Export de données en CSV
+- 📈 Statistiques détaillées avec tendances
+- 🎯 Recommandations basées sur les données
+- 📝 Rapports générés automatiquement
+
+**Admin & Sécurité**
+- 🔐 Authentification JWT sécurisée
+- 👤 Contrôle d'accès basé sur les rôles (User/Admin)
+- 📝 Piste d'audit complète (audit logging)
+- 🛡️ Protection contre les abus (rate limiting)
+- 🔧 Tableau de bord admin avec maintenance
+
+---
+
+## 🏗️ Architecture Technique
+
+### Stack Frontend
+- **React 19** avec TypeScript
+- **Vite** - Build tool ultra-rapide
+- **Tailwind CSS** - Styling utility-first
+- **shadcn/ui** - Composants UI accessibles
+- **Recharts** - Visualisations de données
+- **TanStack Query** - Gestion d'état & requêtes
+- **React Router v7** - Routage
+- **Socket.IO Client** - Communication temps réel
+- **Vitest** - Tests unitaires
+
+### Stack Backend
+- **Flask 3** - Microframework web
+- **SQLAlchemy** - ORM
+- **SQLite** - Base de données
+- **Flask-JWT-Extended** - Authentification JWT
+- **Flask-SocketIO** - WebSocket
+- **Flask-Limiter** - Rate limiting
+- **APScheduler** - Tâches programmées
+- **Flask-Mail** - Notifications email
+
+---
+
+## 🚀 Quick Start / Démarrage Rapide
 
 ### Prérequis
 
-- Python 3.8+
+- Node.js 18+ (pour le frontend)
+- Python 3.8+ (pour le backend)
+- npm ou bun
 
-### Installation et exécution (cross-platform)
+### Installation et Démarrage
 
-1) Créez et activez un environnement virtuel (Windows/macOS/Linux):
-
-```powershell
-python -m venv .venv
-.\\.venv\\Scripts\\Activate.ps1   # PowerShell (Windows)
-# ou .\\.venv\\Scripts\\activate    # cmd.exe (Windows)
-```
-
-```bash
-python3 -m venv .venv
-source .venv/bin/activate          # macOS / Linux
-```
-
-2) Installez les dépendances:
-
-```bash
-python -m pip install -r requirements.txt
-```
-
-3) Initialisez la base de données si nécessaire (exemple) :
-
-```bash
-mkdir -p data
-python site/app.py --init-db
-```
-
-4) Lancez l'application :
+#### 1) Clonez et configurez
 
 ```bash
 cd site
-python app.py
-# ou avec flask: set FLASK_APP=app.py && flask run
+npm install  # ou bun install
 ```
 
-5) Ouvrez votre navigateur à : `http://localhost:5000`
+#### 2) Configuration du Backend
 
-### Premiers Pas
+```bash
+cd backend
+python -m venv venv
 
-1. Créez un nouveau compte
-2. Configurez vos capteurs CO₂
-3. Définissez les alertes de seuil
-4. Commencez la surveillance !
+# Windows
+venv\Scripts\activate
+# ou macOS/Linux
+source venv/bin/activate
+
+pip install -r requirements.txt
+```
+
+#### 3) Variables d'environnement
+
+Créez un fichier `.env` dans `site/backend/` :
+
+```env
+SECRET_KEY=your-secret-key-here
+JWT_SECRET_KEY=your-jwt-secret-key-here
+FLASK_ENV=development
+MAIL_SERVER=smtp.gmail.com
+MAIL_PORT=587
+MAIL_USERNAME=your-email@gmail.com
+MAIL_PASSWORD=your-app-password
+FRONTEND_URL=http://localhost:5173
+```
+
+#### 4) Lancez l'application
+
+**Terminal 1 - Frontend** :
+```bash
+cd site
+npm run dev  # http://localhost:5173
+```
+
+**Terminal 2 - Backend** :
+```bash
+cd site/backend
+python app.py  # http://localhost:5000
+```
+
+### 🔐 Comptes de Démo
+
+Le backend crée automatiquement des comptes de démo à la première exécution :
+
+- **User** : `demo@aerium.app` / `demo123`
+- **Admin** : `admin@aerium.app` / `admin123`
+
+---
 
 ## 📚 Documentation
 
-Une documentation complète est disponible dans le dossier [`docs/`](docs/) :
+Consultez la documentation complète dans [`docs/`](docs/INDEX.md) :
 
-- 📘 **[Index de Documentation](docs/INDEX.md)** - Hub principal de documentation
-- 🚀 **[Guide de Démarrage](docs/GUIDE-DEMARRAGE.md)** - Installation et utilisation de base
-- 📖 **[Guide Utilisateur](docs/GUIDE-UTILISATEUR.md)** - Présentation complète des fonctionnalités
-- 🔌 **[Référence API](docs/REFERENCE-API.md)** - Documentation de l'API REST et WebSocket
-- 💻 **[Guide Développeur](docs/GUIDE-DEVELOPPEUR.md)** - Contribution et configuration de développement
-- 🆘 **[Dépannage](docs/DEPANNAGE.md)** - Problèmes courants et solutions
+- 📘 **[Index de Documentation](docs/INDEX.md)** - Hub principal
+- 🚀 **[Guide de Démarrage](docs/GUIDE-DEMARRAGE.md)** - Installation pas-à-pas
+- 📖 **[Guide Utilisateur](docs/GUIDE-UTILISATEUR.md)** - Fonctionnalités complètes
+- 🔌 **[Référence API](docs/REFERENCE-API.md)** - API REST et WebSocket
+- 💻 **[Guide Développeur](docs/GUIDE-DEVELOPPEUR.md)** - Architecture & contribution
+- 🆘 **[Dépannage](docs/DEPANNAGE.md)** - Problèmes courants
 
-## 🏗️ Structure du Projet
+---
+
+## 📂 Structure du Projet
 
 ```
 Aerium/
-├── site/                  # Application principale
-│   ├── app.py            # Application Flask
-│   ├── database.py       # Opérations de base de données
-│   ├── admin_tools.py    # Utilitaires admin
-│   ├── static/           # CSS, JS, images
-│   ├── templates/        # Templates HTML
-│   └── sensors/          # Gestion des capteurs
-├── app/                   # Utilitaires supplémentaires
-│   ├── datamanager.py    # Traitement des données
-│   └── sensors/          # Interfaces des capteurs
-├── data/                  # Base de données et sauvegardes
-├── docs/                  # Documentation
-└── tests/                 # Suite de tests
+├── site/                          # Application principale
+│   ├── src/                       # Frontend React TypeScript
+│   │   ├── pages/                # Pages (Dashboard, Analytics, etc.)
+│   │   ├── components/           # Composants réutilisables
+│   │   ├── contexts/             # Contextes (Auth, WebSocket, Settings)
+│   │   ├── hooks/                # Hooks personnalisés
+│   │   ├── integrations/         # Intégrations (API, WebSocket)
+│   │   └── lib/                  # Utilitaires
+│   │
+│   ├── backend/                   # Backend Flask Python
+│   │   ├── app.py                # Application principale
+│   │   ├── database.py           # Modèles SQLAlchemy
+│   │   ├── config.py             # Configuration
+│   │   ├── routes/               # Endpoints API (auth, sensors, readings, etc.)
+│   │   ├── scheduler.py          # Tâches programmées
+│   │   ├── email_service.py      # Notifications email
+│   │   └── validators.py         # Validation des données
+│   │
+│   ├── package.json              # Dépendances frontend
+│   ├── vite.config.ts            # Configuration Vite
+│   └── tailwind.config.ts        # Configuration Tailwind
+│
+├── app/                            # Utilitaires supplémentaires (Kivy)
+├── data/                           # Base de données et sauvegardes
+├── docs/                           # Documentation complète
+└── tests/                          # Suite de tests
 ```
 
-## 🔧 Configuration
+---
 
-Options de configuration principales dans `app.py` :
+## 🔧 Configuration Environnement
 
-```python
-# Paramètres du serveur
-app.config['SECRET_KEY'] = 'votre-clé-secrète'
-HOST = '0.0.0.0'
-PORT = 5000
-
-# Base de données
-DATABASE = 'data/aerium.db'
-
-# Fonctionnalités
-ENABLE_CACHING = True
-CACHE_TIMEOUT = 600  # secondes
+### Frontend (site/)
+```bash
+npm run dev        # Développement
+npm run build      # Build production
+npm run preview    # Prévisualiser le build
+npm run test       # Exécuter les tests
+npm run lint       # Vérifier le code
 ```
+
+### Backend (site/backend/)
+```bash
+python app.py                      # Lancer le serveur
+python seed_database.py            # Créer les données de démo
+pytest                             # Tests
+```
+
+---
 
 ## 🧪 Tests
 
-Exécutez la suite de tests (recommandé `pytest` lorsque disponible) :
-
 ```bash
-# Exécuter l'ensemble des tests
-pytest -q
+# Frontend
+cd site && npm run test
 
-# ou lancer des tests individuels
-python test_api_endpoints.py
+# Backend
+cd site/backend && pytest -v
 ```
+
+---
 
 ## 🤝 Contribuer
 
 1. Forkez le dépôt
-2. Créez votre branche de fonctionnalité : `git checkout -b feature/fonctionnalite-incroyable`
-3. Committez vos changements : `git commit -m 'Ajout fonctionnalité incroyable'`
-4. Poussez vers la branche : `git push origin feature/fonctionnalite-incroyable`
+2. Créez votre branche : `git checkout -b feature/votre-feature`
+3. Committez : `git commit -m 'Add your feature'`
+4. Poussez : `git push origin feature/votre-feature`
 5. Ouvrez une Pull Request
 
-Consultez le [Guide Développeur](docs/GUIDE-DEVELOPPEUR.md) pour des directives de contribution détaillées.
-
-## 📄 Licence
-
-Ce projet est sous licence MIT.
-📊 Captures d'Écran
-
-### Tableau de Bord Principal
-*Interface de surveillance en temps réel avec graphiques et indicateurs de statut*
-
-### Gestion des Capteurs
-*Configuration et gestion de plusieurs capteurs avec seuils personnalisés*
-
-### Analyses & Rapports
-*Visualisation des tendances historiques et statistiques avancées*
-
-> 💡 **Note** : Ajoutez vos propres captures d'écran dans ce dossier : `docs/images/`
+Consultez le [Guide Développeur](docs/GUIDE-DEVELOPPEUR.md) pour les conventions de code.
 
 ---
 
-## ❓ FAQ
+## 📊 Pages Principales
 
-<details>
-<summary><b>Quels capteurs CO₂ sont compatibles ?</b></summary>
-
-Aerium supporte :
-- Capteurs USB série (MH-Z19, SCD30, etc.)
-- Capteurs réseau (HTTP/MQTT)
-- Intégration via API REST
-- Saisie manuelle pour tests
-
-Consultez la [documentation des capteurs](docs/GUIDE-UTILISATEUR.md#gestion-des-capteurs) pour plus de détails.
-</details>
-
-<details>
-<summary><b>Puis-je utiliser Aerium sur un Raspberry Pi ?</b></summary>
-
-Oui ! Aerium fonctionne parfaitement sur Raspberry Pi 3/4 avec Python 3.8+. Recommandé pour :
-- Installations permanentes
-- Déploiement multi-sites
-- Intégration IoT
-</details>
-
-<details>
-<summary><b>Comment sécuriser l'installation en production ?</b></summary>
-
-Pour la production :
-1. Utilisez HTTPS avec un certificat SSL
-2. Configurez un SECRET_KEY fort
-3. Mettez en place un proxy inverse (Nginx)
-4. Activez les sauvegardes automatiques
-5. Consultez le [Guide de Déploiement](docs/GUIDE-DEVELOPPEUR.md#déploiement)
-</details>
-
-<details>
-<summary><b>Les données sont-elles stockées localement ?</b></summary>
-
-Oui, toutes les données sont stockées dans une base SQLite locale. Aucune donnée n'est envoyée vers des serveurs externes sauf si vous configurez des intégrations cloud optionnelles.
-</details>
+- **Landing** - Page d'accueil
+- **Dashboard** - Surveillance en temps réel
+- **Analytics** - Analyses détaillées
+- **Comparison** - Comparaison multi-capteurs
+- **Sensors** - Gestion des capteurs
+- **Sensor Map** - Cartographie des capteurs
+- **Alerts** - Gestion des alertes
+- **Alert History** - Historique des alertes
+- **Reports** - Rapports et exports
+- **Recommendations** - Recommandations basées sur les données
+- **Settings** - Paramètres utilisateur
+- **Admin** - Tableau de bord administrateur
+- **Maintenance** - Outils de maintenance
 
 ---
 
-## 🆘 Support & Communauté
+## 🔐 Sécurité
 
-### Obtenir de l'Aide
-
-- 📖 **Documentation** : [docs/INDEX.md](docs/INDEX.md)
-- 🐛 **Bugs** : [Ouvrir un ticket](https://github.com/votre-repo/issues)
-- 💬 **Discussions** : [Forum communautaire](https://github.com/votre-repo/discussions)
-- 🔧 **Dépannage** : [Guide de Dépannage](docs/DEPANNAGE.md)
-
-### Ressources Utiles
-
-- [Référence API complète](docs/REFERENCE-API.md)
-- [Exemples de code](docs/GUIDE-DEVELOPPEUR.md#exemples)
-- [Changelog](CHANGELOG.md)
+- JWT tokens avec expiration configurée
+- Hachage bcrypt des mots de passe
+- CORS configuré
+- Rate limiting activé
+- Audit logging complet
+- Protection CSRF
+- Validation des entrées
 
 ---
 
 ## 🏆 Contributeurs
 
-Merci à tous ceux qui ont contribué au projet !
-
-<!-- Ajoutez vos contributeurs ici -->
-
----
-
-## 📜 Licence
-
-Ce projet est sous licence MIT - voir le fichier [LICENSE](LICENSE) pour plus de détails.
+Merci à tous ceux qui ont contribué ! 🙌
 
 ---
 
 ## 🙏 Remerciements
 
-- Flask et la communauté Python
-- Chart.js pour les visualisations
-- Socket.IO pour le temps réel
-- Tous les contributeurs et utilisateurs
+- **React & Ecosystem** - Framework frontend
+- **Flask & Python** - Backend framework
+- **shadcn/ui** - Composants UI
+- **Recharts** - Visualisations
+- **Tailwind CSS** - Styling
+- **Socket.IO** - Communication temps réel
+- **Tous les contributeurs et utilisateurs** ❤️
 
 ---
 
 <div align="center">
 
 **Version** : 2.0  
-**Dernière Mise à Jour** : Janvier 2026
+**Dernière Mise à Jour** : Février 2026
 
-Made with ❤️ pour un air plus sain
+Construit avec ❤️ pour un air plus sain
 
-[⬆ Retour en haut](#aerium---système-de-surveillance-de-la-qualité-de-lair-co₂)
+[⬆ Retour en haut](#-aerium---tableau-de-bord-qualité-de-lair)
 
 </div>
-**Dernière Mise à Jour** : Janvier 2026
