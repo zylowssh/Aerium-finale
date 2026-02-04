@@ -4,7 +4,7 @@ from database import db, SensorReading, Sensor, User, Alert, AlertHistory
 from datetime import datetime, timedelta
 from email_service import send_alert_email
 from audit_logger import log_action
-from sensor_simulator import generate_historical_simulated_readings
+from sensor_simulator import generate_historical_simulated_readings, generate_current_simulated_reading
 import logging
 
 readings_bp = Blueprint('readings', __name__)
@@ -338,7 +338,7 @@ def add_external_reading(sensor_api_key):
 @readings_bp.route('/latest/<int:sensor_id>', methods=['GET'])
 @jwt_required()
 def get_latest_reading(sensor_id):
-    """Get the latest reading for a specific sensor"""
+    """Get the latest reading for a specific sensor. For simulated sensors, generate and store if stale."""
     try:
         current_user_id = get_jwt_identity()
         
@@ -362,6 +362,23 @@ def get_latest_reading(sensor_id):
             sensor_id=sensor_id
         ).order_by(SensorReading.recorded_at.desc()).first()
         
+        # For simulated sensors, generate fresh reading if none exists or if reading is older than 5 seconds
+        if sensor.sensor_type == 'simulation':
+            if not latest_reading or (datetime.utcnow() - latest_reading.recorded_at).total_seconds() > 5:
+                # Generate new simulated reading
+                simulated_data = generate_current_simulated_reading(sensor.name)
+                
+                # Store it in the database so it's consistent across requests
+                new_reading = SensorReading(
+                    sensor_id=sensor_id,
+                    co2=simulated_data['co2'],
+                    temperature=simulated_data['temperature'],
+                    humidity=simulated_data['humidity']
+                )
+                db.session.add(new_reading)
+                db.session.commit()
+                latest_reading = new_reading
+        
         if not latest_reading:
             return jsonify({'error': 'No readings found for this sensor'}), 404
         
@@ -371,4 +388,5 @@ def get_latest_reading(sensor_id):
         }), 200
         
     except Exception as e:
+        db.session.rollback()
         return jsonify({'error': str(e)}), 500

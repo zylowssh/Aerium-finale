@@ -72,24 +72,38 @@ def get_sensors():
         
         sensors = query.limit(limit).all()
         
-        # Include latest readings for each sensor (generate on-demand for simulated sensors)
+        # Include latest readings for each sensor (use stored readings for consistency)
         sensors_data = []
         for sensor in sensors:
             sensor_dict = sensor.to_dict(include_latest_reading=True)
             
-            # For simulated sensors without recent readings, generate one on-demand
+            # For simulated sensors, ensure we have a recent stored reading
             if sensor.sensor_type == 'simulation':
                 latest_reading = SensorReading.query.filter_by(sensor_id=sensor.id).order_by(
                     SensorReading.recorded_at.desc()
                 ).first()
                 
-                # If no reading exists or reading is stale (>1 minute old), generate fresh data
-                if not latest_reading or (datetime.utcnow() - latest_reading.recorded_at).total_seconds() > 60:
+                # If no reading exists or reading is stale (>5 seconds), generate and store fresh data
+                if not latest_reading or (datetime.utcnow() - latest_reading.recorded_at).total_seconds() > 5:
                     simulated_data = generate_current_simulated_reading(sensor.name)
-                    sensor_dict['co2'] = simulated_data['co2']
-                    sensor_dict['temperature'] = simulated_data['temperature']
-                    sensor_dict['humidity'] = simulated_data['humidity']
-                    sensor_dict['lastReading'] = datetime.utcnow().isoformat()
+                    
+                    # Store it in the database so all endpoints see the same data
+                    new_reading = SensorReading(
+                        sensor_id=sensor.id,
+                        co2=simulated_data['co2'],
+                        temperature=simulated_data['temperature'],
+                        humidity=simulated_data['humidity']
+                    )
+                    db.session.add(new_reading)
+                    db.session.commit()
+                    latest_reading = new_reading
+                
+                # Use the stored reading data
+                if latest_reading:
+                    sensor_dict['co2'] = latest_reading.co2
+                    sensor_dict['temperature'] = latest_reading.temperature
+                    sensor_dict['humidity'] = latest_reading.humidity
+                    sensor_dict['lastReading'] = latest_reading.recorded_at.isoformat()
             
             sensors_data.append(sensor_dict)
         
